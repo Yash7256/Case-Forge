@@ -1,13 +1,5 @@
 {
   "buildCommand": "pip install --break-system-packages -r requirements.txt",
   "installCommand": "pip install --break-system-packages -r requirements.txt",
-  "framework": null,
-  "outputDirectory": "api",
-  "routes": [
-    { "handle": "filesystem" },
-    {
-      "src": "/(.*)",
-      "dest": "/api/$1"
-    }
-  ]
+  "framework": null
 }
