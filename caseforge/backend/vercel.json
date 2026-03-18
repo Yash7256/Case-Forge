@@ -1,0 +1,11 @@
+{
+  "buildCommand": "pip install -r requirements.txt",
+  "installCommand": "pip install -r requirements.txt",
+  "framework": null,
+  "routes": [
+    { "src": "/upload", "dest": "/api/upload" },
+    { "src": "/chat", "dest": "/api/chat" },
+    { "src": "/generate", "dest": "/api/generate" },
+    { "src": "/export/pdf", "dest": "/api/export/pdf" }
+  ]
+}

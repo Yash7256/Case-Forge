@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #FDFAF4;
+    --surface: #F3EFE6;
+    --border: #E0D9CC;
+    --text: #1E1C18;
+    --text2: #5C5848;
+    --accent: #C96A3A;
+    --accent2: #4E6A52;
+    --tag-bg: #EDE8DD;
+    --page-w: 794px;
+  }
+
+  html { font-size: 14px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    width: var(--page-w);
+    margin: 0 auto;
+  }
+
+  /* ── PAGE BREAKS ── */
+  .page {
+    width: var(--page-w);
+    min-height: 1123px;
+    padding: 64px 72px;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .page:last-child { page-break-after: avoid; }
+
+  /* ── DIVIDER ── */
+  .page-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--text);
+    margin-bottom: 48px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  /* ── HEADINGS ── */
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--text2);
+  }
+
+  /* ── COVER PAGE ── */
+  .cover {
+    background: var(--text);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 72px;
+    position: relative;
+    overflow: hidden;
+    min-height: 1123px;
+  }
+
+  .cover-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .cover-accent-bar {
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--accent);
+  }
+
+  .cover-tags {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .cover-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.7);
+    border-radius: 2px;
+  }
+
+  .cover h1 {
+    color: white;
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+
+  .cover .cover-tagline {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  .cover-meta-row {
+    display: flex;
+    gap: 40px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 28px;
+  }
+
+  .cover-meta-item { display: flex; flex-direction: column; gap: 4px; }
+
+  .cover-meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .cover-meta-value {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 400;
+  }
+
+  .cover-label {
+    position: absolute;
+    top: 72px;
+    left: 72px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── OVERVIEW PAGE ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .overview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+  }
+
+  .overview-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .overview-card p {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  /* ── PROCESS STAGES ── */
+  .stages-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .stage-card {
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 24px 20px;
+  }
+
+  .stage-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .stage-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .stage-card p {
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--text2);
+  }
+
+  /* ── USER RESEARCH ── */
+  .research-quote-block {
+    background: var(--text);
+    color: white;
+    border-radius: 50%;
+    width: 260px;
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 32px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .research-quote-text {
+    font-size: 11.5px;
+    line-height: 1.6;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 10px;
+  }
+
+  .research-quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .research-findings-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .research-finding {
+    text-align: center;
+    padding: 0 12px;
+  }
+
+  .finding-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .finding-body {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text2);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── PERSONAS ── */
+  .persona-card {
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+
+  .persona-header {
+    display: grid;
+    grid-template-columns: 1fr 180px 1fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 24px;
+  }
+
+  .persona-photo-placeholder {
+    width: 180px;
+    height: 200px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text2);
+    letter-spacing: 0.1em;
+  }
+
+  .persona-col-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  .persona-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .persona-pill {
+    padding: 8px 14px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .pill-goal {
+    background: var(--accent2);
+    color: white;
+  }
+
+  .pill-frustration {
+    background: #A85272;
+    color: white;
+  }
+
+  .persona-background {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 16px 20px;
+  }
+
+  .persona-background strong {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .persona-background p { font-size: 12px; }
+
+  /* ── PAIN POINTS & PROBLEM STATEMENT ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .num-card {
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 28px 20px;
+    text-align: center;
+  }
+
+  .num-card .big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .num-card .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .num-card .card-body {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text2);
+    margin-top: 8px;
+  }
+
+  /* Problem statement numbered list style */
+  .problem-list { margin-top: 32px; }
+
+  .problem-item {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    background: var(--surface);
+  }
+
+  .problem-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    min-width: 40px;
+  }
+
+  .problem-content strong {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .problem-content p { font-size: 12px; }
+
+  /* ── KEY DECISIONS ── */
+  .decisions-list { margin-top: 32px; }
+
+  .decision-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .decision-item:last-child { border-bottom: none; }
+
+  .decision-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 24px;
+    padding-top: 2px;
+  }
+
+  .decision-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .decision-body { font-size: 12px; line-height: 1.7; }
+
+  /* ── VISUAL IDENTITY: COLORS ── */
+  .palette-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .swatch-card {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .swatch-block {
+    height: 140px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .swatch-name {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+  }
+
+  .swatch-hex {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text2);
+    margin-bottom: 2px;
+  }
+
+  .swatch-usage { font-size: 10px; color: var(--text2); }
+
+  /* ── TYPOGRAPHY SPECIMEN ── */
+  .type-specimen {
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    margin-top: 40px;
+  }
+
+  .type-display {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 24px;
+  }
+
+  .type-big {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .type-name { font-size: 36px; color: var(--accent2); }
+
+  .type-weights {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .type-weight { font-size: 14px; color: var(--text2); }
+  .type-weight.bold { font-weight: 600; }
+
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .scale-item { color: var(--accent2); }
+
+  /* ── WIREFRAMES ── */
+  .wireframe-placeholder {
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text2);
+  }
+
+  .wf-icon { font-size: 28px; opacity: 0.3; }
+
+  .wireframe-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  /* ── OUTCOMES / PROJECTED IMPACT ── */
+  .metrics-list { margin-top: 40px; }
+
+  .metric-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    padding: 20px 28px;
+    margin-bottom: 16px;
+  }
+
+  .metric-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--accent2);
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .metric-reason {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .metric-projected-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--tag-bg);
+    color: var(--text2);
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .outcomes-disclaimer {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .outcomes-disclaimer p { font-size: 12px; line-height: 1.65; }
+
+  /* ── LEARNINGS ── */
+  .learnings-list { margin-top: 32px; }
+
+  .learning-item {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+
+  .learning-num-circle {
+    width: 44px;
+    height: 44px;
+    background: var(--text);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .learning-body {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text2);
+    padding-top: 8px;
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+  }
+
+  /* ── CHALLENGES ── */
+  .challenges-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    margin-top: 32px;
+  }
+
+  .challenges-block p { font-size: 13.5px; line-height: 1.8; }
+
+  /* ── NEXT STEPS ── */
+  .next-steps-block {
+    border-left: 3px solid var(--accent2);
+    padding-left: 24px;
+    margin-top: 32px;
+  }
+
+  .next-steps-block p { font-size: 13.5px; line-height: 1.8; }
+
+  /* ── BACK COVER ── */
+  .back-cover {
+    background: var(--text);
+    min-height: 1123px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 72px;
+    text-align: center;
+    position: relative;
+  }
+
+  .back-cover h1 {
+    color: white;
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .back-cover p {
+    color: rgba(255,255,255,0.4);
+    font-size: 13px;
+  }
+
+  .back-accent { color: var(--accent); }
+
+  /* ── SCREENSHOT PLACEHOLDER ── */
+  .screenshot-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    justify-content: center;
+  }
+
+  .screenshot-placeholder {
+    flex: 1;
+    max-width: 220px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: 4px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .screenshot-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text2);
+    opacity: 0.5;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { width: 210mm; }
+    .page { width: 210mm; min-height: 297mm; padding: 20mm 24mm; }
+    .cover, .back-cover { min-height: 297mm; }
+  }
+</style>
+</head>
+<body>
+
+{# ══════════════════════════════ COVER ══════════════════════════════ #}
+<div class="cover page">
+  <div class="cover-noise"></div>
+  <div class="cover-accent-bar"></div>
+
+  <span class="cover-label">UI/UX CASE STUDY</span>
+
+  <div>
+    <div class="cover-tags">
+      {% for tag in case_study.badge_tags %}
+        <span class="cover-tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+
+    <h1>{{ case_study.title }}</h1>
+    <p class="cover-tagline">{{ case_study.tagline }}</p>
+
+    <div class="cover-meta-row">
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Role</span>
+        <span class="cover-meta-value">{{ case_study.project_meta.role }}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Tools</span>
+        <span class="cover-meta-value">{{ case_study.project_meta.tools | join(', ') }}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Platform</span>
+        <span class="cover-meta-value">{{ case_study.project_meta.platform }}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Category</span>
+        <span class="cover-meta-value">{{ case_study.project_meta.category }}</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Timeline</span>
+        <span class="cover-meta-value">{{ case_study.project_meta.timeline }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ══════════════════════════════ OVERVIEW ══════════════════════════════ #}
+<div class="page">
+  <div class="page-num">01 / OVERVIEW</div>
+  <div class="section-label">OVERVIEW</div>
+  <h2>{{ case_study.overview.what_label }} &amp; {{ case_study.overview.why_label }}</h2>
+
+  <p>{{ case_study.overview.body }}</p>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <div class="overview-card-label">{{ case_study.overview.what_label }}</div>
+      <p>{{ case_study.overview.what }}</p>
+    </div>
+    <div class="overview-card">
+      <div class="overview-card-label">{{ case_study.overview.why_label }}</div>
+      <p>{{ case_study.overview.why }}</p>
+    </div>
+  </div>
+
+  {# Screenshots placeholder row #}
+  <div class="screenshot-row" style="margin-top:48px;">
+    {% for i in range(3) %}
+    <div class="screenshot-placeholder">
+      <span style="font-size:28px;opacity:0.15;">⬜</span>
+      <span class="screenshot-label">Add screenshot {{ i+1 }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ══════════════════════════════ DESIGN PROCESS ══════════════════════════════ #}
+<div class="page">
+  <div class="page-num">02 / DESIGN PROCESS</div>
+  <div class="section-label">DESIGN PROCESS</div>
+  <h2>{{ case_study.design_process.stages | map(attribute='label') | join(' → ') if case_study.design_process.stages else 'How We Got There' }}</h2>
+
+  <p>{{ case_study.design_process.intro }}</p>
+
+  <div class="stages-grid">
+    {% for stage in case_study.design_process.stages %}
+    <div class="stage-card">
+      <div class="stage-num">{{ stage.number }}</div>
+      <div class="stage-label">{{ stage.label }}</div>
+      <p>{{ stage.body }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ══════════════════════════════ USER RESEARCH ══════════════════════════════ #}
+{% if case_study.user_research.intro != "Not discussed in this project." %}
+<div class="page">
+  <div class="page-num">03 / USER RESEARCH</div>
+  <div class="section-label">USER RESEARCH</div>
+  <h2>Who We Spoke To &amp; What We Found</h2>
+
+  <p>{{ case_study.user_research.intro }}</p>
+
+  {% if case_study.user_research.standout_quote.text %}
+  <div style="display:flex; justify-content:center; margin: 40px 0;">
+    <div class="research-quote-block">
+      <p class="research-quote-text">"{{ case_study.user_research.standout_quote.text }}"</p>
+      {% if case_study.user_research.standout_quote.attribution %}
+      <span class="research-quote-attr">— {{ case_study.user_research.standout_quote.attribution }}</span>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="research-findings-row">
+    {% for finding in case_study.user_research.key_findings %}
+    <div class="research-finding">
+      <div class="finding-label">{{ finding.label }}</div>
+      <div class="finding-body">{{ finding.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{# ══════════════════════════════ PERSONAS ══════════════════════════════ #}
+{% if case_study.personas %}
+{% for persona in case_study.personas %}
+<div class="page">
+  <div class="page-num">0{{ loop.index + 3 }} / USER PERSONAS</div>
+  <div class="section-label">USER PERSONAS — {{ loop.index }}</div>
+  <h2>Who We're Designing For</h2>
+
+  <div class="persona-card">
+    <div class="persona-header">
+      <div>
+        <div class="persona-col-label">GOALS</div>
+        <div class="persona-pills">
+          {% for goal in persona.goals %}
+          <div class="persona-pill pill-goal">{{ goal }}</div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="persona-photo-placeholder">PHOTO</div>
+
+      <div>
+        <div class="persona-col-label">FRUSTRATIONS</div>
+        <div class="persona-pills">
+          {% for f in persona.frustrations %}
+          <div class="persona-pill pill-frustration">{{ f }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="persona-background">
+      <strong>BACKGROUND</strong>
+      <p>{{ persona.background }}</p>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+{# ══════════════════════════════ PAIN POINTS ══════════════════════════════ #}
+{% if case_study.pain_points.points %}
+<div class="page">
+  <div class="page-num">/ PAIN POINTS</div>
+  <div class="section-label">PAIN POINTS</div>
+  <h2>Where the Experience Was Breaking</h2>
+  <p>{{ case_study.pain_points.intro }}</p>
+
+  <div class="grid-3" style="margin-top:32px;">
+    {% for pt in case_study.pain_points.points %}
+    <div class="num-card">
+      <span class="big-num">{{ pt.number }}</span>
+      <div class="card-label">{{ pt.label }}</div>
+      {% if pt.body %}<div class="card-body">{{ pt.body }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{# ══════════════════════════════ PROBLEM STATEMENT ══════════════════════════════ #}
+<div class="page">
+  <div class="page-num">/ PROBLEM STATEMENT</div>
+  <div class="section-label">PROBLEM STATEMENT</div>
+  <h2>What Wasn't Working</h2>
+  <p>{{ case_study.problem_statement.intro }}</p>
+
+  <div class="problem-list">
+    {% for problem in case_study.problem_statement.problems %}
+    <div class="problem-item">
+      <div class="problem-num">{{ problem.number }}</div>
+      <div class="problem-content">
+        <strong>{{ problem.label }}</strong>
+        <p>{{ problem.body }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ══════════════════════════════ KEY DECISIONS ══════════════════════════════ #}
+<div class="page">
+  <div class="page-num">/ KEY DESIGN DECISIONS</div>
+  <div class="section-label">KEY DESIGN DECISIONS</div>
+  <h2>What Changed &amp; Why</h2>
+  <p>{{ case_study.key_decisions.intro }}</p>
+
+  <div class="decisions-list">
+    {% for d in case_study.key_decisions.decisions %}
+    <div class="decision-item">
+      <div class="decision-num">{{ d.number }}</div>
+      <div>
+        <div class="decision-title">{{ d.title }}</div>
+        <p class="decision-body">{{ d.body }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ══════════════════════════════ VISUAL IDENTITY ══════════════════════════════ #}
+{% if case_study.visual_identity.discussed %}
+<div class="page">
+  <div class="page-num">/ COLOUR &amp; TYPOGRAPHY</div>
+  <div class="section-label">COLOUR &amp; TYPOGRAPHY</div>
+  <h2>The Visual Language of the Redesign</h2>
+  <p>{{ case_study.visual_identity.intro }}</p>
+
+  {% if case_study.visual_identity.color_palette %}
+  <div class="palette-row">
+    {% for swatch in case_study.visual_identity.color_palette %}
+    <div class="swatch-card">
+      <div class="swatch-block" style="background: {{ swatch.hex }};"></div>
+      <div class="swatch-name">{{ swatch.name }}</div>
+      <div class="swatch-hex">{{ swatch.hex }}</div>
+      <div class="swatch-usage">{{ swatch.usage }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+{% if case_study.visual_identity.typography %}
+<div class="page">
+  <div class="page-num">/ TYPOGRAPHY</div>
+  <div class="section-label">COLOUR &amp; TYPOGRAPHY</div>
+
+  <div class="type-specimen">
+    <div class="type-display">
+      <span class="type-big">Aa</span>
+      <span class="type-name">{{ case_study.visual_identity.typography.font_family }}</span>
+      <div class="type-scale">
+        <span class="scale-item" style="font-size:20px;font-weight:600;">25 px Semi-Bold</span>
+        <span class="scale-item" style="font-size:18px;font-weight:600;">20 px Semi-Bold</span>
+        <span class="scale-item" style="font-size:16px;">20 px Regular</span>
+        <span class="scale-item" style="font-size:12px;font-weight:600;">12 px Semi-Bold</span>
+        <span class="scale-item" style="font-size:11px;">10 px Regular</span>
+      </div>
+    </div>
+    <div class="type-weights">
+      {% for w in case_study.visual_identity.typography.weights_used %}
+      <span class="type-weight {% if 'Bold' in w or 'bold' in w %}bold{% endif %}">{{ w }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="margin-top:32px;">
+    <h3>WHY {{ case_study.visual_identity.typography.font_family | upper }}</h3>
+    <p style="margin-top:8px;">{{ case_study.visual_identity.typography.rationale }}</p>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+
+{# ══════════════════════════════ WIREFRAMES ══════════════════════════════ #}
+{% if case_study.wireframes.discussed %}
+<div class="page">
+  <div class="page-num">/ WIREFRAMES</div>
+  <div class="section-label">WIREFRAMES</div>
+  <h2>From Sketches to Structure</h2>
+  <p>{{ case_study.wireframes.intro }}</p>
+
+  <div class="screenshot-row" style="margin-top:40px;">
+    {% for i in range(3) %}
+    <div class="screenshot-placeholder">
+      <span style="font-size:28px;opacity:0.15;">⬜</span>
+      <span class="screenshot-label">Wireframe {{ i+1 }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{# ══════════════════════════════ CHALLENGES ══════════════════════════════ #}
+{% if case_study.challenges != "Not discussed in this project." %}
+<div class="page">
+  <div class="page-num">/ CHALLENGES</div>
+  <div class="section-label">CHALLENGES</div>
+  <h2>What Made This Hard</h2>
+
+  <div class="challenges-block">
+    <p>{{ case_study.challenges }}</p>
+  </div>
+</div>
+{% endif %}
+
+{# ══════════════════════════════ OUTCOMES ══════════════════════════════ #}
+<div class="page">
+  <div class="page-num">/ OUTCOMES</div>
+  <div class="section-label">
+    {% if case_study.outcomes.type == 'projected' %}PROJECTED IMPACT
+    {% elif case_study.outcomes.type == 'real' %}RESULTS
+    {% else %}OUTCOMES{% endif %}
+  </div>
+  <h2>
+    {% if case_study.outcomes.type == 'projected' %}What This Design Could Move
+    {% elif case_study.outcomes.type == 'real' %}What We Shipped
+    {% else %}Outcomes{% endif %}
+  </h2>
+
+  <p>{{ case_study.outcomes.intro }}</p>
+
+  {% if case_study.outcomes.type == 'projected' %}
+  <div class="outcomes-disclaimer" style="margin-top:24px;">
+    <p>Since this is a conceptual redesign, the metrics are projected outcomes based on UX improvements and industry benchmarks. These numbers illustrate potential impact, not measured results.</p>
+  </div>
+  {% endif %}
+
+  {% if case_study.outcomes.metrics %}
+  <div class="metrics-list">
+    {% for metric in case_study.outcomes.metrics %}
+    <div class="metric-item">
+      <div class="metric-value">{{ metric.value }}</div>
+      <div style="flex:1;">
+        <div class="metric-label">{{ metric.label }}</div>
+        <div class="metric-reason">{{ metric.reason }}</div>
+      </div>
+      {% if metric.is_projected %}
+      <span class="metric-projected-badge">Projected</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+
+{# ══════════════════════════════ LEARNINGS ══════════════════════════════ #}
+<div class="page">
+  <div class="page-num">/ LEARNINGS</div>
+  <div class="section-label">LEARNINGS</div>
+  <h2>What I Took Away</h2>
+
+  <div class="learnings-list">
+    {% for learning in case_study.learnings %}
+    <div class="learning-item">
+      <div class="learning-num-circle">{{ learning.number }}</div>
+      <div class="learning-body">{{ learning.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if case_study.next_steps != "Not discussed in this project." %}
+  <div style="margin-top:48px;">
+    <div class="section-label">NEXT STEPS</div>
+    <div class="next-steps-block">
+      <p>{{ case_study.next_steps }}</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{# ══════════════════════════════ BACK COVER ══════════════════════════════ #}
+<div class="back-cover page">
+  <div class="cover-accent-bar"></div>
+  <h1>Thanks for<br><span class="back-accent">exploring</span><br>{{ case_study.title }}</h1>
+  <p style="margin-top:16px;">{{ case_study.tagline }}</p>
+</div>
+
+</body>
+</html>
