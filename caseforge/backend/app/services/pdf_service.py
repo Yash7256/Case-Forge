@@ -1,6 +1,5 @@
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from weasyprint import HTML, CSS
 
 from app.models.schemas import CaseStudy
 
@@ -13,14 +12,17 @@ env = Environment(
 
 
 def render_case_study_pdf(case: CaseStudy) -> bytes:
+    from weasyprint import HTML, CSS
+    
     template = env.get_template("case_study.html")
     html = template.render(case_study=case)
     pdf = HTML(
         string=html,
         base_url=str(TEMPLATES_DIR)
     ).write_pdf(
-        stylesheets=[
-            CSS(string="@page { size: A4; margin: 0; }")
-        ]
+        stylesheets=[CSS(string="""
+            body { font-family: Arial, sans-serif; }
+            h1 { color: #333; }
+        """)]
     )
     return pdf
